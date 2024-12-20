@@ -1,5 +1,8 @@
 const express = require("express");
-const dotenv = require("dotenv");
+require("dotenv").config();
+const connectDB = require("./config/db");
+
+
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -11,6 +14,12 @@ app.use("/", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`App is listening on ${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await connectDB();
+    console.log("Db has been connected!");
+    console.log(`App is listening on ${PORT}`);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
