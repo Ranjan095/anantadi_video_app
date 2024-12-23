@@ -4,6 +4,7 @@ import Dashboard from "../pages/Dashboard";
 import SignUp from "../pages/SignUp";
 import SignIn from "../pages/Login";
 import PrivateRoute from "./PrivateRoute";
+import SingleVideo from "../pages/SingleVideoPage";
 const AllRoutes = () => {
   return (
     <div>
@@ -13,6 +14,14 @@ const AllRoutes = () => {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/video/:id"
+          element={
+            <PrivateRoute>
+              <SingleVideo />
             </PrivateRoute>
           }
         />

@@ -40,17 +40,28 @@ const getAllVideoByUserId = async (req, res) => {
     const totalVideos = await Video.countDocuments({ userId: req.user._id });
 
     return res.status(200).send({
-      data: allVideo,
-      meta: {
-        totalVideos,
-        Currentpage,
-        limit,
-        TotalPages: Math.ceil(totalVideos / limit),
-      },
+      videos: allVideo,
+      totalVideos,
+      Currentpage,
+      limit,
+      TotalPages: Math.ceil(totalVideos / limit),
     });
   } catch (error) {
     return res.status(400).send({ error: error.message });
   }
 };
 
-module.exports = { uploadVideo, getAllVideoByUserId };
+const getVideoById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    if (!video) {
+      return res.status(404).send({ message: "Video not found" });
+    }
+    return res.status(200).send(video);
+  } catch (error) {
+    return res.status(400).send({ error: error.message });
+  }
+};
+
+module.exports = { uploadVideo, getAllVideoByUserId,getVideoById };
