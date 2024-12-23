@@ -1,13 +1,12 @@
 # Anantadi Video App
 
-Anantadi Video App is a video streaming platform where users can watch, upload, and share videos. The app provides a seamless experience for video playback, with features like user authentication, video uploading, and commenting.
+Anantadi Video App is a video streaming platform where users can watch, upload, and share videos. The app provides a seamless experience for video playback, with features like user authentication, video uploading.
 
 ## Features
 
 - User authentication (Login/Signup)
 - Video upload and storage
 - Video playback with controls (play, pause, seek)
-- Comments on videos
 - Responsive design for mobile and desktop
 
 ## Tech Stack
