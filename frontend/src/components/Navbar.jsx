@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 
 const Navbar = () => {
+  const { auth, logout } = useContext(AuthContext);
+
   return (
     <nav className="bg-gray-800 shadow-md">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
@@ -8,31 +12,44 @@ const Navbar = () => {
         <div className="flex items-center space-x-4">
           {/* Logo */}
           <div className="text-white text-2xl font-bold">
-            <a href="/">MyLogo</a>
+            <Link to="/">AnantaDI</Link>
           </div>
           {/* Dashboard */}
-          <a
-            href="/dashboard"
+          <Link
+            to="/"
             className="text-white hover:text-gray-300 transition duration-200"
           >
             Dashboard
-          </a>
+          </Link>
         </div>
 
-        {/* Right Section: Sign In and Sign Up */}
+        {/* Right Section: Conditional Rendering for Auth */}
         <div className="flex items-center space-x-4">
-          <a
-            href="/signin"
-            className="text-white hover:text-gray-300 transition duration-200"
-          >
-            Sign In
-          </a>
-          <a
-            href="/signup"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
-          >
-            Sign Up
-          </a>
+          {auth.isAuthenticated ? (
+            // If authenticated, show Logout button
+            <button
+              onClick={logout}
+              className="text-white hover:text-gray-300 transition duration-200"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              {/* If not authenticated, show Sign In and Sign Up buttons */}
+              <Link
+                to="/signin"
+                className="text-white hover:text-gray-300 transition duration-200"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
