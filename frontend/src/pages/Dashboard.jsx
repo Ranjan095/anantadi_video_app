@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { baseURL } from "../utils/BaseURL";
 import { AuthContext } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
+import VideoUploadModal from "../components/VideoUploadModal";
 
 const obj = {
   videos: [],
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const { auth } = useContext(AuthContext);
   const [data, setData] = useState(obj);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   // Function to get all videos
@@ -66,20 +68,33 @@ const Dashboard = () => {
 
   // Function to generate Google Drive embed URL
   const getGoogleDriveEmbedURL = (url) => {
-    const fileId = url.split("/d/")[1].split("/")[0]; // Extract file ID from the Google Drive URL
+    const fileId = url?.split("/d/")[1]?.split("/")[0]; // Extract file ID from the Google Drive URL
     return `https://drive.google.com/file/d/${fileId}/preview`;
   };
 
   return (
     <div>
-      {/* Search Input */}
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        placeholder="Search videos"
-        className="m-4 p-2 border rounded"
+      <VideoUploadModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
+      <div className="flex justify-between m-4">
+        {/* Search Input */}
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search videos"
+          className=" p-2 border border-gray-600 focus:outline-none rounded"
+        />
+
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="border px-4 py-2 border-blue-600 rounded-md text-white font-semibold bg-blue-600 hover:bg-blue-700"
+        >
+          Add Video
+        </button>
+      </div>
 
       {/* Video List */}
       <div className="flex flex-wrap gap-4 justify-center">

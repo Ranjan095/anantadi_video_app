@@ -27,17 +27,29 @@ const uploadVideo = async (req, res) => {
 
 const getAllVideoByUserId = async (req, res) => {
   try {
-    // Extract page and limit from query parameters, with defaults
+    // Extract page, limit, and search term from query parameters
     const Currentpage = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || ""; // Get the search term
+
+    // Build the query object
+    const query = {
+      userId: req.user._id,
+      ...(search && {
+        $or: [
+          { title: { $regex: search, $options: "i" } }, // Search in the title (case-insensitive)
+          { tags: { $regex: search, $options: "i" } }, // Search in the tags (case-insensitive)
+        ],
+      }),
+    };
 
     // Fetch videos with pagination
-    const allVideo = await Video.find({ userId: req.user._id })
+    const allVideo = await Video.find(query)
       .skip((Currentpage - 1) * limit)
       .limit(limit);
 
     // Count total videos for the user
-    const totalVideos = await Video.countDocuments({ userId: req.user._id });
+    const totalVideos = await Video.countDocuments(query);
 
     return res.status(200).send({
       videos: allVideo,
@@ -64,4 +76,4 @@ const getVideoById = async (req, res) => {
   }
 };
 
-module.exports = { uploadVideo, getAllVideoByUserId,getVideoById };
+module.exports = { uploadVideo, getAllVideoByUserId, getVideoById };

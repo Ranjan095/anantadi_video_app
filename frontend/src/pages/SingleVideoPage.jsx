@@ -31,7 +31,7 @@ const SingleVideo = () => {
 
   // Function to generate Google Drive embed URL
   const getGoogleDriveEmbedURL = (url) => {
-    const fileId = url.split("/d/")[1].split("/")[0]; // Extract file ID from the Google Drive URL
+    const fileId = url?.split("/d/")[1]?.split("/")[0]; // Extract file ID from the Google Drive URL
     return `https://drive.google.com/file/d/${fileId}/preview`;
   };
 

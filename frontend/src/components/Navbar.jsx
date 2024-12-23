@@ -29,7 +29,7 @@ const Navbar = () => {
             // If authenticated, show Logout button
             <button
               onClick={logout}
-              className="text-white hover:text-gray-300 transition duration-200"
+              className="text-white border border-red-700 rounded-md px-4 py-2 font-semibold hover:text-gray-300 transition duration-200"
             >
               Logout
             </button>

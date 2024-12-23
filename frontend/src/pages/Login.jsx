@@ -10,6 +10,7 @@ const SignIn = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const [isLoading, setIsloading] = useState(false);
   const { auth, login, logout } = useContext(AuthContext);
   // console.log(auth);
 
@@ -19,15 +20,18 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsloading(true);
     axios
       .post(`${baseURL}/auth/login`, formData)
       .then((res) => {
+        setIsloading(false);
         console.log(res);
         alert("login successful!");
         login(res?.data?.token);
         navigate("/");
       })
       .catch((err) => {
+        setIsloading(false);
         console.log(err?.response?.data?.error);
         alert(err?.response?.data?.error);
       });
@@ -78,10 +82,13 @@ const SignIn = () => {
           </div>
           {/* Submit Button */}
           <button
+            disabled={isLoading ? true : false}
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+            className={`w-full ${
+              isLoading ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"
+            } text-white py-2 px-4 rounded-lg  transition duration-200`}
           >
-            Sign In
+            {isLoading ? "Loading..." : " Sign In"}
           </button>
         </form>
       </div>

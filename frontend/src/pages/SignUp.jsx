@@ -8,7 +8,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-
+  const [isLoading, setIsloading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,14 +17,17 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsloading(true);
     axios
       .post(`${baseURL}/auth/register`, formData)
       .then((res) => {
+        setIsloading(false);
         console.log(res.data.message);
         alert(res.data.message);
         navigate("/signin");
       })
       .catch((err) => {
+        setIsloading(false);
         console.log(err);
       });
   };
@@ -93,10 +96,13 @@ const SignUp = () => {
           </div>
           {/* Submit Button */}
           <button
+            disabled={isLoading ? true : false}
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+            className={`w-full ${
+              isLoading ? "bg-gray-500" : "bg-blue-500 hover:bg-blue-600"
+            } text-white py-2 px-4 rounded-lg  transition duration-200`}
           >
-            Sign Up
+            {isLoading ? "Loading..." : " Sign Up"}
           </button>
         </form>
       </div>
