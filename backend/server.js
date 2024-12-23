@@ -1,12 +1,14 @@
 const express = require("express");
+var cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/db");
 const { json } = require("body-parser");
 const authRouter = require("./routes/authRoutes");
-
+const videoRoute = require("./routes/videoRoutes");
 
 const app = express();
-app.use(json())
+app.use(cors());
+app.use(json());
 const PORT = process.env.PORT || 8080;
 
 app.get("/", async (req, res) => {
@@ -17,8 +19,8 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.use('/api/auth', authRouter);
-// app.use('/api/videos', videoRoutes);
+app.use("/api/auth", authRouter);
+app.use("/api/videos", videoRoute);
 
 app.listen(PORT, async () => {
   try {
